@@ -19,15 +19,17 @@ public class MenuController
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("Customer Manager");
-            Console.WriteLine("1. Create customer");
-            Console.WriteLine("2. View all customer");
-            Console.WriteLine("3. Exit");
-            Console.Write("Choose option: ");
+            Console.WriteLine("*Manage Customers*" +
+            "\n 1. Create a new customer" +
+            "\n 2. View all customers" +
+            "\n 3. View one customer" +
+            "\n 4. Remove customer" +
+            "\n 5. Exit" +
+            "\n Choose option number: ");
 
-            var option = Console.ReadLine();
+            var CustomerInput = Console.ReadLine();
 
-            switch (option)
+            switch (CustomerInput)
             {
                 case "1":
                     CreateCustomer();
@@ -38,6 +40,14 @@ public class MenuController
                     break;
 
                 case "3":
+                    ViewOneCustomer();
+                    break;
+
+                case "4":
+                    RemoveCustomer();
+                    break;
+
+                case "5":
                     return;
 
                 default:
@@ -112,9 +122,6 @@ public class MenuController
             {
                 Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}" );
                 Console.WriteLine($"Email: {customer.Email}");
-                Console.WriteLine($"Phone: {customer.PhoneNumber}");
-                Console.WriteLine($"Address: {customer.Address.StreetAddress} {customer.Address.PostalCode} {customer.Address.City}");
-                Console.WriteLine($"ID: {customer.Id}");
                 Console.WriteLine();
 
             }
@@ -122,6 +129,127 @@ public class MenuController
 
         OutputDialog("Press any key to continue...");
     }
+
+
+
+
+
+
+
+
+
+    //ARBETAR MED NEDAN 
+    private void ViewOneCustomer()
+    {
+        Console.Clear();
+
+        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong. Please try again later.");
+        }
+
+        if (!customers.Any()) /*Om listan är tom*/
+        {
+            Console.WriteLine("No customers found");
+        }
+        else
+        {
+
+            int number = 1;
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"{number}. Name: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                number++;
+                Console.WriteLine();
+            }
+        }
+
+        Console.WriteLine("Enter the number of the customer you wish to see: ");
+        var CustomerInput = Console.ReadLine();
+
+    }
+
+    /*Note-to-self: Behöver fortsätta med kod som visar specifik kund kopplat till siffran användaren skriver in
+     SAMT snygga till meny-valet "Enter the number of the customer you wish to see"*/
+
+
+
+
+
+
+
+
+    private void RemoveCustomer()
+    {
+        Console.Clear();
+
+        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong. Please try again later.");
+        }
+
+        if (!customers.Any()) /*Om listan är tom*/
+        {
+            Console.WriteLine("No customers found");
+        }
+        else
+        {
+
+            int number = 1;
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"{number}. Name: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                number++;
+                Console.WriteLine();
+            }
+        }
+
+        Console.WriteLine("Enter the number of the customer you wish to remove: ");
+        var CustomerInput = Console.ReadLine();
+
+    }
+
+    //Note-to-self: Behöver fortsätta med kod som raderar specifik kund kopplat till siffran användaren skriver in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void OutputDialog(string message)
     {
