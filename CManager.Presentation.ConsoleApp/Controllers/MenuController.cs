@@ -1,6 +1,7 @@
 ﻿using CManager.Application.Services;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace CManager.Presentation.ConsoleApp.Controllers;
@@ -194,7 +195,7 @@ public class MenuController
             Console.WriteLine("Something went wrong. Please try again later.");
         }
 
-        if (!customers.Any()) /*Om listan är tom*/
+        if (!customers.Any())
         {
             Console.WriteLine("No customers found");
         }
@@ -214,40 +215,10 @@ public class MenuController
 
         Console.WriteLine("Enter the number of the customer you wish to remove: ");
         var CustomerInput = Console.ReadLine();
-
     }
 
+
     //Note-to-self: Behöver fortsätta med kod som raderar specifik kund kopplat till siffran användaren skriver in
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

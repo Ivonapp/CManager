@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CManager.Application.Services;
-    public class CustomerService : ICustomerService
-    {
+
+public class CustomerService : ICustomerService
+{
 
     private readonly ICustomerRepo _customerRepo;
 
@@ -52,8 +53,8 @@ namespace CManager.Application.Services;
 
     }
 
-        public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
-        {
+    public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
+    {
         hasError = false;
 
         try
@@ -66,7 +67,41 @@ namespace CManager.Application.Services;
 
             //hÄR KOmmer throw hamna från customerrepo - getallcustomers
             hasError = true;
-            return [];
+            return new List<CustomerModel>();
         }
-      }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //ARBETAR MED NEDAN 
+    //RADERA SPECIFIK KUND
+
+
+
+
+    // VISA ALLA KUNDER
+
+    //VILKEN KUND VILL DU RADERA?
+
+    // TA IN ANVÄNDARENS VAL
+
+    // RADERA KUND
+
+
+
+
+
+
+}

@@ -10,4 +10,10 @@ namespace CManager.Application.Services;
     bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalcode, string city);
 
     IEnumerable<CustomerModel> GetAllCustomers(out bool hasError);//Kastar ut en parameter med "out bool hasError"
+
+
+
     }
+
+
+
