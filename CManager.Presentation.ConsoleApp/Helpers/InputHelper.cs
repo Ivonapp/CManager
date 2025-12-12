@@ -36,8 +36,6 @@ public static class InputHelper
 
     }
 
-
-
     private static (bool isValid, string errorMessage) ValidateType(string input, ValidationType type)
     {
         switch (type)
@@ -61,7 +59,6 @@ public static class InputHelper
         }
 
     }
-
 
     private static bool IsValidEmail(string input)
     {
