@@ -1,8 +1,12 @@
 ﻿using CManager.Application.Services;
+using CManager.Presentation.ConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CManager.Presentation.ConsoleApp.Controllers;
 public class MenuController
@@ -65,30 +69,21 @@ public class MenuController
         Console.Clear();
         Console.WriteLine("Create Customer");
 
-        Console.Write("First Name: ");
-        var firstName = Console.ReadLine()!;
 
-        Console.Write("Last Name: ");
-        var lastName = Console.ReadLine()!;
+        var firstName = InputHelper.ValidateInput("First name", ValidationType.Required);
+        var lastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
+        var email = InputHelper.ValidateInput("Email", ValidationType.Email);
+        var phoneNumber = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
+        var streetAddress = InputHelper.ValidateInput("Address", ValidationType.Required);
+        var postalCode = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
+        var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
-        Console.Write("Email: ");
-        var email = Console.ReadLine()!;
-
-        Console.Write("Phonenumber: ");
-        var phoneNumber = Console.ReadLine()!;
-
-        Console.Write("Street Address: ");
-        var streetAddress = Console.ReadLine()!;
-
-        Console.Write("Postal Code: ");
-        var postalCode = Console.ReadLine()!;
-
-        Console.Write("City: ");
-        var city = Console.ReadLine()!;
 
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
+        
         if (result)
         {
+            Console.WriteLine("");
             Console.WriteLine("Customer created");
             Console.WriteLine($"Name: {firstName} {lastName}");
         }
@@ -99,7 +94,6 @@ public class MenuController
 
         OutputDialog("Press any key to continue...");
     }
-
 
     private void ViewAllCustomers()
     {
