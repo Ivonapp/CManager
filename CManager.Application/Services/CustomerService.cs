@@ -73,35 +73,26 @@ public class CustomerService : ICustomerService
 
 
 
+    public bool DeleteCustomer(Guid id)
+    {
+        try
+        {
+            var customers = _customerRepo.GetAllCustomers();
+            var customer = customers.FirstOrDefault(c => c.Id == id);
 
+            if (customer == null)
+                return false;
 
+            customers.Remove(customer);
+            var result = _customerRepo.SaveCustomers(customers);
+            return result;
 
-
-
-
-
-
-
-
-
-
-    //ARBETAR MED NEDAN 
-    //RADERA SPECIFIK KUND
-
-
-
-
-    // VISA ALLA KUNDER
-
-    //VILKEN KUND VILL DU RADERA?
-
-    // TA IN ANVÄNDARENS VAL
-
-    // RADERA KUND
-
-
-
-
-
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting customer: {ex.Message}");
+            return false;
+        }
+    }
 
 }
