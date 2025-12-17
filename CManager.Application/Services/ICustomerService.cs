@@ -11,9 +11,9 @@ namespace CManager.Application.Services;
 
     IEnumerable<CustomerModel> GetAllCustomers(out bool hasError);//Kastar ut en parameter med "out bool hasError"
 
+    bool DeleteCustomer(Guid id);
 
-
-    }
+}
 
 
 
