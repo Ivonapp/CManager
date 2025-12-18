@@ -20,13 +20,17 @@ public class MenuController(ICustomerService customerService)
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Manage Customers" +
-                "\n [1] Create a new customer" +
-                "\n [2] View all customers" +
-                "\n [3] View one customer" +
-                "\n [4] Delete customer" +
-                "\n [5] Exit" +
-                "\n Choose option number: ");
+                Console.WriteLine("======================");
+                Console.WriteLine("   MANAGE CUSTOMERS");
+                Console.WriteLine("======================");
+                Console.WriteLine("");
+                Console.WriteLine("[1] Create new customer" +
+                "\n[2] All customers" +
+                "\n[3] Delete customer" +
+                "\n[4] Exit");
+
+                Console.WriteLine("");
+                Console.Write("Choose option number: ");
 
                 var CustomerInput = Console.ReadLine();
 
@@ -41,14 +45,14 @@ public class MenuController(ICustomerService customerService)
                         break;
 
                     case "3":
-                        ViewOneCustomer();
-                        break;
-
-                    case "4":
                         DeleteCustomer();
                         break;
 
-                    case "5":
+                        /*case "4":
+                         ChangeCustomer();
+                        break;*/
+
+                    case "4":
                         return;
 
                     default:
@@ -65,7 +69,9 @@ public class MenuController(ICustomerService customerService)
     private void CreateCustomer()
     {
         Console.Clear();
-        Console.WriteLine("Create Customer");
+        Console.WriteLine("======================");
+        Console.WriteLine("   CREATE CUSTOMER");
+        Console.WriteLine("======================");
 
 
         var firstName = InputHelper.ValidateInput("First name", ValidationType.Required);
@@ -76,68 +82,49 @@ public class MenuController(ICustomerService customerService)
         var postalCode = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
         var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
-
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
         
         if (result)
         {
             Console.WriteLine("");
-            Console.WriteLine("Customer created");
-            Console.WriteLine($"Name: {firstName} {lastName}");
+            Console.Clear();
+            Console.WriteLine($"Customer \"{firstName} {lastName}\" created successfully.");
         }
         else
         {
             Console.WriteLine("Something went wrong. Please try again.");
         }
-
+        Console.WriteLine("");
         OutputDialog("Press any key to continue...");
     }
 
-    //                                             VIEWALLCUSTOMERS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //                                             VIEWALLCUSTOMERS > CHOOSE SPECIFIC CUSTOMER
 
     private void ViewAllCustomers()
     {
         Console.Clear();
-        Console.WriteLine("All Customers");
 
-        var customers = _customerService.GetAllCustomers(out bool hasError);
-
-        if (hasError)
-        {
-            Console.WriteLine("Something went wrong. Please try again later.");
-        }
-
-        if (!customers.Any()) /*Om listan är tom*/
-        {
-            Console.WriteLine("No customers found");
-        }
-        else
-        {
-            foreach(var customer in customers)
-            {
-                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}" );
-                Console.WriteLine($"Email: {customer.Email}");
-                Console.WriteLine();
-
-            }
-        }
-
-        OutputDialog("Press any key to continue...");
-    }
-
-
-
-
-
-
-
-   
-    //                                             VIEWONECUSTOMER
-    private void ViewOneCustomer()
-    {
-        Console.Clear();
-
-        var customers = _customerService.GetAllCustomers(out bool hasError);
+        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
 
         if (hasError)
         {
@@ -151,50 +138,84 @@ public class MenuController(ICustomerService customerService)
         else
         {
 
-            int number = 1;
 
-            foreach (var customer in customers)
+            // VISAR NAMN OCH EMAIL
+            while (true)
             {
-                Console.WriteLine($"{number}. Name: {customer.FirstName} {customer.LastName}");
-                Console.WriteLine($"Email: {customer.Email}");
-                number++;
-                Console.WriteLine();
+                Console.Clear();
+                Console.WriteLine("======================");
+                Console.WriteLine("    ALL CUSTOMERS");
+                Console.WriteLine("======================");
+                Console.WriteLine("");
+
+                for (int i = 0; i < customers.Count; i++)
+                {
+                    var customer = customers[i];
+
+                    Console.WriteLine($"[{i + 1}] Name: {customer.FirstName} {customer.LastName}, Email: {customer.Email}");
+                    
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine($"[1]-[{customers.Count}] View customer information  |  [0] Go back to menu");
+                var CustomerInput = Console.ReadLine();
+
+
+
+                //                                             VIEWONECUSTOMER CHOICE
+
+
+                if (!int.TryParse(CustomerInput, out int userChoice))
+                {
+                    OutputDialog("Not a valid number! Press any key to try again...");
+                    Console.Clear();
+                    continue;
+
+                }
+
+
+                if (userChoice == 0)
+                {
+                    return;
+                }
+
+
+                if (userChoice > customers.Count)
+                {
+                    Console.WriteLine($"Number must be between 1 and {customers.Count}. Press any key to try again...");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                    var index = userChoice - 1;
+                    var selectedCustomer = customers[index];
+
+                    Console.Clear();
+                    Console.WriteLine("Customer Information:");
+                    Console.WriteLine("");
+                    Console.WriteLine($"Name: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
+                    Console.WriteLine($"Email: {selectedCustomer.Email}");
+                    Console.WriteLine($"Phone: {selectedCustomer.PhoneNumber}");
+                    Console.WriteLine($"Address: {selectedCustomer.Address.StreetAddress} {selectedCustomer.Address.PostalCode} {selectedCustomer.Address.City}");
+                    Console.WriteLine($"ID: {selectedCustomer.Id}");
+                    Console.WriteLine();
+
+
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                    OutputDialog("Press any key to go back to Customers...");
+                    ViewAllCustomers();
+
+                }
+              
             }
         }
 
-        Console.WriteLine("Enter the number of the customer you wish to see: ");
-        var CustomerInput = Console.ReadLine();
 
 
 
 
-        //                                          ANVÄNDAREN VÄLJER EN KUND
-
-
-            if (int.TryParse(CustomerInput, out int selected) &&
-            selected >= 1 &&
-            selected <= customers.Count())
-            {
-
-            
-            var customer = customers.ElementAt(selected - 1);
-
-            Console.Clear();
-            Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
-            Console.WriteLine($"Email: {customer.Email}");
-            Console.WriteLine($"Phone: {customer.PhoneNumber}");
-            Console.WriteLine($"Address: {customer.Address.StreetAddress} {customer.Address.PostalCode} {customer.Address.City}");
-            Console.WriteLine($"ID: {customer.Id}");
-            Console.WriteLine();
-            
-        }
-        else
-        {
-            Console.WriteLine("Invalid selection. Please try again.");
-            
-        }
-        OutputDialog("Press any key to continue...");
-    }
 
 
 
@@ -227,12 +248,9 @@ public class MenuController(ICustomerService customerService)
 
     //                                             DELETECUSTOMER 
 
-
-
     private void DeleteCustomer()
     {
         Console.Clear();
-        Console.WriteLine("Delete Customer");
 
         var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
 
@@ -249,53 +267,70 @@ public class MenuController(ICustomerService customerService)
         {
             while (true)
             {
+                Console.WriteLine("======================");
+                Console.WriteLine("   DELETE CUSTOMER");
+                Console.WriteLine("======================");
+                Console.WriteLine("");
+
                 for (int i = 0; i < customers.Count; i++)
                 {
                     var customer = customers[i];
-                    Console.WriteLine($"[{i + 1}] {customer.FirstName} {customer.LastName} {customer.Email}");
+                    
+                    Console.WriteLine($"[{i + 1}] Name: {customer.FirstName} {customer.LastName}, Email: {customer.Email}");
+                    
                 }
 
-                Console.WriteLine("[0] Go back to menu");
-                Console.Write("Enter customer number to delete: ");
+
+                Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine($"[1]-[{customers.Count}] Delete customer  |  [0] Go back to menu");
                 var input = Console.ReadLine();
 
-                // siffra?
-                // vi har valt något
-                if (!int.TryParse(input, out int choice))
+
+
+
+
+    //                                             DELETECUSTOMER CHOICE
+
+                if (!int.TryParse(input, out int userChoice))
                 {
                     OutputDialog("Not a valid number! Press any key to try again...");
+                    Console.Clear();
                     continue;
+                    
                 }
 
-                // valt 0 för att gå tillbaka
-                if (choice == 0)
+                if (userChoice == 0)
                 {
                     return;
                 }
 
-                // välja rätt customer
-                if (choice > customers.Count)  // 0,1,2  => 1,2,3
+
+                if (userChoice > customers.Count)
                 {
                     Console.WriteLine($"Number must be between 1 and {customers.Count}. Press any key to try again...");
                     Console.ReadKey();
                     continue;
                 }
 
-                //bekräftelse
-                var index = choice - 1;
-                var selectedCustomer = customers[index];
 
-                Console.WriteLine("You have selected: ");
-                Console.WriteLine($"Name: {selectedCustomer.FirstName} {selectedCustomer.LastName} {selectedCustomer.Email}");
+                var index = userChoice - 1;
+                var selectedCustomer = customers[index];
 
 
                 while (true)
                 {
-                    Console.Write("Are you sure you want to delete this customer? (y/n): ");
+                    Console.Clear();
+                    Console.WriteLine("Are you sure you want to delete:");
+                    Console.WriteLine("");
+                    Console.WriteLine($"{selectedCustomer.FirstName} {selectedCustomer.LastName}\n{selectedCustomer.Email}");
+                    Console.WriteLine("");
+                    Console.Write("(y/n): ");
                     var confirmation = Console.ReadLine()!.ToLower();
+                    Console.Clear();
 
                     if (confirmation == "y")
-                        Console.Clear();
+                        
                     {
                         var result = _customerService.DeleteCustomer(selectedCustomer.Id);
                         if (result)
@@ -311,6 +346,10 @@ public class MenuController(ICustomerService customerService)
                     }
                     else if (confirmation == "n")
                     {
+                        Console.WriteLine($"The customer \"{selectedCustomer.FirstName} {selectedCustomer.LastName}\" has NOT been removed.");
+                        Console.WriteLine("");
+                        Console.WriteLine("Press any key to go back to menu...");
+                        Console.ReadKey();
                         return;
                     }
                     else
@@ -321,6 +360,7 @@ public class MenuController(ICustomerService customerService)
                 }
             }
         }
+
         OutputDialog("Press any key to continue...");
     }
 
@@ -330,79 +370,5 @@ public class MenuController(ICustomerService customerService)
         Console.ReadKey();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*kod för att radera kund
-     *  private void RemoveCustomer()
-    {
-        Console.Clear();
-
-        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
-
-        if (hasError)
-        {
-            Console.WriteLine("Something went wrong. Please try again later.");
-        }
-
-        if (!customers.Any())
-        {
-            Console.WriteLine("No customers found");
-        }
-        else
-        {
-
-            int number = 1;
-
-            foreach (var customer in customers)
-            {
-                Console.WriteLine($"{number}. Name: {customer.FirstName} {customer.LastName}");
-                Console.WriteLine($"Email: {customer.Email}");
-                number++;
-                Console.WriteLine();
-            }
-        }
-
-        Console.WriteLine("Enter the number of the customer you wish to remove: ");
-        var CustomerInput = Console.ReadLine();
-    }*/
-
-
-    //Note-to-self: Behöver fortsätta med kod som raderar specifik kund kopplat till siffran användaren skriver in
-
-
 
 
