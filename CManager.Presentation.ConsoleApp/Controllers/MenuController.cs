@@ -56,7 +56,7 @@ public class MenuController(ICustomerService customerService)
                         return;
 
                     default:
-                        OutputDialog("Invalid option");
+                        OutputDialog("Invalid option. Please try again.");
                         break;
 
 
@@ -64,6 +64,16 @@ public class MenuController(ICustomerService customerService)
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
 
     //                                             CREATECUSTOMER
     private void CreateCustomer()
@@ -97,19 +107,6 @@ public class MenuController(ICustomerService customerService)
         Console.WriteLine("");
         OutputDialog("Press any key to continue...");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -225,27 +222,6 @@ public class MenuController(ICustomerService customerService)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //                                             DELETECUSTOMER 
 
     private void DeleteCustomer()
@@ -335,26 +311,27 @@ public class MenuController(ICustomerService customerService)
                         var result = _customerService.DeleteCustomer(selectedCustomer.Id);
                         if (result)
                         {
-                            OutputDialog("Customer was removed, press any key to go back...");
+                            Console.WriteLine("");
+                            OutputDialog($"The customer \"{selectedCustomer.FirstName} {selectedCustomer.LastName}\" has been removed successfully. Press any key to go back.");
                             return;
                         }
                         else
                         {
-                            OutputDialog("Something went wrong. Please contact support... press any key to continue...");
+                            Console.WriteLine("");
+                            OutputDialog("Something went wrong. Press any key to continue...");
                             return;
                         }
                     }
                     else if (confirmation == "n")
                     {
-                        Console.WriteLine($"The customer \"{selectedCustomer.FirstName} {selectedCustomer.LastName}\" has NOT been removed.");
                         Console.WriteLine("");
-                        Console.WriteLine("Press any key to go back to menu...");
+                        Console.WriteLine($"The customer \"{selectedCustomer.FirstName} {selectedCustomer.LastName}\" has NOT been removed. Press any key to go back.");
                         Console.ReadKey();
                         return;
                     }
                     else
                     {
-                        OutputDialog("Please enter 'y' for yes or 'n' for no, press any key to try again...");
+                        OutputDialog("Please enter 'y' for YES or 'n' for NO. Press any key to try again...");
                         continue;
                     }
                 }
