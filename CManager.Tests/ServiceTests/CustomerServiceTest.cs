@@ -1,8 +1,4 @@
-﻿//SE IGENOM EMILS KOD NEDAN:
-
-
-
-using CManager.Application.Services;
+﻿using CManager.Application.Services;
 using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
 using Moq;
@@ -48,8 +44,8 @@ public class CustomerServiceTest
             }
         };
 
-        var testCustomers = new List<CustomerModel> { testCustomer };
-
+        var testCustomers = new List<CustomerModel>{testCustomer};
+        
         var mockCustomerRepo = new Mock<ICustomerRepo>();
         mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(testCustomers);
         mockCustomerRepo.Setup(r => r.SaveCustomers(It.IsAny<List<CustomerModel>>())).Returns(true);
