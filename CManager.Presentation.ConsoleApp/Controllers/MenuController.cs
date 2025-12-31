@@ -48,10 +48,6 @@ public class MenuController(ICustomerService customerService)
                         DeleteCustomer();
                         break;
 
-                        /*case "4":
-                         ChangeCustomer();
-                        break;*/
-
                     case "4":
                         return;
 
@@ -196,15 +192,43 @@ public class MenuController(ICustomerService customerService)
                     Console.WriteLine($"Phone: {selectedCustomer.PhoneNumber}");
                     Console.WriteLine($"Address: {selectedCustomer.Address.StreetAddress} {selectedCustomer.Address.PostalCode} {selectedCustomer.Address.City}");
                     Console.WriteLine($"ID: {selectedCustomer.Id}");
-                    Console.WriteLine();
-
-
                     Console.WriteLine("");
                     Console.WriteLine("");
-                    OutputDialog("Press any key to go back to Customers...");
-                    ViewAllCustomers();
+                    Console.WriteLine($"[1] Update customer information  |  [0] Go back to menu");
+
+                    var CustomerChoice = Console.ReadLine();
+
+
+                if (!int.TryParse(CustomerChoice, out int userInput))
+                {
+                    OutputDialog("Not a valid number! Press any key to try again...");
+                    Console.Clear();
+                    continue;
 
                 }
+
+
+                if (userInput == 0)
+                {
+                    return;
+                }
+
+
+                if (userInput == 1)
+                {
+
+
+                //HÄR SKA DU LÄGGA TILL KODEN FÖR ATT UPPDATERA KUNDENS INFO.
+
+
+                }
+
+
+
+
+
+
+            }
               
             }
         }

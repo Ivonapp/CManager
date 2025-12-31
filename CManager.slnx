@@ -3,4 +3,6 @@
   <Project Path="CManager.Domain/CManager.Domain.csproj" Id="b3c9ab90-def1-460c-a709-292fcc1d1968" />
   <Project Path="CManager.Infrastructure/CManager.Infrastructure.csproj" Id="1d9d87e6-8b93-482e-8713-1815000580fd" />
   <Project Path="CManager.Presentation.ConsoleApp/CManager.Presentation.ConsoleApp.csproj" />
+  <Project Path="CManager.Presentation.GuiApp/CManager.Presentation.GuiApp.csproj" Id="8a3dc370-3999-4c75-a141-54969d447d31" />
+  <Project Path="CManager.Tests/CManager.Tests.csproj" Id="f131df9a-5825-4ae8-9acd-0f196068fa17" />
 </Solution>
