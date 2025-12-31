@@ -12,4 +12,8 @@ namespace CManager.Infrastructure.Repos;
 
         List<CustomerModel> GetAllCustomers();
     bool SaveCustomers(List<CustomerModel> customers);
-    }
+
+
+                //UpdateCustomer
+    bool UpdateCustomer(CustomerModel updatedCustomer);
+}
