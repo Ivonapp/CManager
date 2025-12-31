@@ -13,6 +13,17 @@ namespace CManager.Application.Services;
 
     bool DeleteCustomer(Guid id);
 
+
+
+
+
+
+
+
+
+    //                              UPDATECUSTOMER
+    bool UpdateCustomer(CustomerModel updateCustomer);
+
 }
 
 

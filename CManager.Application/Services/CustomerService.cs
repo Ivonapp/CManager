@@ -95,4 +95,38 @@ public class CustomerService : ICustomerService
         }
     }
 
+
+
+
+
+
+
+
+    //                              UPDATECUSTOMER
+    //                              NEDAN KOD ÄR PÅGÅENDE KOD. 
+
+    public bool UpdateCustomer(CustomerModel updatedCustomer)
+    {
+        try
+        {
+
+            return _customerRepo.UpdateCustomer(updatedCustomer);
+
+        }
+
+        catch (Exception ex)
+
+        {
+            Console.WriteLine($"Not possible to update the customer information. {ex.Message}");
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+
 }
