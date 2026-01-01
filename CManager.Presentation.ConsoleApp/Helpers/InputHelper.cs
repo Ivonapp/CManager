@@ -4,15 +4,16 @@ namespace CManager.Presentation.ConsoleApp.Helpers;
 
 public enum ValidationType
 {
-    Required,
-    NotRequired, //updatecustomer
-    Email,
+    Required,               //CreateCustomer
+    NotRequired,            //UpdateCustomer
+    Email,                  //CreateCustomer
+    EmailOptional,          //UpdateCustomer
 }
 
 public static class InputHelper
 {
 
-    public static string ValidateInput(string fieldName, ValidationType validationType)
+    public static string? ValidateInput(string fieldName, ValidationType validationType)
     {
         while (true)
         {
@@ -21,8 +22,8 @@ public static class InputHelper
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                if (validationType == ValidationType.NotRequired) //UpdateCustomer kan lämnas tomt
-                    return "";      //UpdateCustomer kan lämnas tomt
+                if (validationType == ValidationType.NotRequired || validationType == ValidationType.EmailOptional) //UpdateCustomer, kan lämnas tomt
+                    return null;      //UpdateCustomer, kan lämnas tomt - "null" så att inte den gamla informationen suddas ut om användaren ej fyller i nåt
 
 
                 Console.WriteLine($"{fieldName} is required. Press any key to try again....");
@@ -65,6 +66,25 @@ public static class InputHelper
                 {
                     return (false, "Invalid email. Use name@example.com ");
                 }
+
+                //CustomerUpdate
+                //Email är valfri men OM kund fyller i email så ska det föhlja regex
+            case ValidationType.EmailOptional:
+                if (string.IsNullOrWhiteSpace(input))
+                { 
+                    return (true, ""); // OM EMAIL LÄMNAS TOM
+                }
+
+                if (IsValidEmail(input))  
+                {
+                    return (true, ""); //OM KUND FYLLER I EMAIL SOM FÖLJER REGEX
+                }
+
+                else
+                {
+                    return (false, "Invalid email. Use name@example.com"); //oM EMAIL FYLLS I MEN INTE FÖLJER REGEX
+                }
+
 
             default:
                 return (true, "");
