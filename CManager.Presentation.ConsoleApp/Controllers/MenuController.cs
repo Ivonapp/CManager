@@ -1,4 +1,5 @@
 ﻿using CManager.Application.Services;
+using CManager.Domain.Models;
 using CManager.Presentation.ConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ public class MenuController(ICustomerService customerService)
                 Console.WriteLine("======================");
                 Console.WriteLine("");
                 Console.WriteLine("[1] Create new customer" +
-                "\n[2] All customers" +
+                "\n[2] View / update customers" +
                 "\n[3] Delete customer" +
                 "\n[4] Exit");
 
@@ -214,24 +215,62 @@ public class MenuController(ICustomerService customerService)
                 }
 
 
+
+
+
+
+
+
+                //                                      UPDATECUSTOMER
+
                 if (userInput == 1)
                 {
+                    Console.WriteLine("======================");
+                    Console.WriteLine("   UPDATE CUSTOMER");
+                    Console.WriteLine("======================");
 
+                    //SAMLAR IN NY DATA FÖR KUNDEN
 
-                //HÄR SKA DU LÄGGA TILL KODEN FÖR ATT UPPDATERA KUNDENS INFO.
+                    var updatedFirstName = InputHelper.ValidateInput("First name", ValidationType.Required);
+                    var updatedLastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
+                    var updatedEmail = InputHelper.ValidateInput("Email", ValidationType.Email);
+                    var updatedPhone = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
+                    var updatedStreet = InputHelper.ValidateInput("Address", ValidationType.Required);
+                    var updatedPostal = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
+                    var updatedCity = InputHelper.ValidateInput("City", ValidationType.Required);
 
+                    var updatedCustomer = new CustomerModel
+                    {
+                        Id = selectedCustomer.Id,
+                        FirstName = updatedFirstName,
+                        LastName = updatedLastName,
+                        Email = updatedEmail,
+                        PhoneNumber = updatedPhone,
+                        Address = new AddressModel
+                        {
+                            StreetAddress = updatedStreet,
+                            PostalCode = updatedPostal,
+                            City = updatedCity
+                        }
+                    };
+
+                    var result = _customerService.UpdateCustomer(updatedCustomer);
+                    if (result)
+                    {
+                        OutputDialog("Customer updated successfully! Press any button to go back.");
+                        return;
+
+                    }
+
+                    else
+                    { 
+                    OutputDialog("Something went wrong. Please try again.");
+                    }
 
                 }
-
-
-
-
-
-
-            }
-              
-            }
+            }     
         }
+    }
 
 
 
