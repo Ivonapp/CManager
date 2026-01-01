@@ -231,13 +231,13 @@ public class MenuController(ICustomerService customerService)
 
                     //SAMLAR IN NY DATA FÖR KUNDEN
 
-                    var updatedFirstName = InputHelper.ValidateInput("First name", ValidationType.Required);
-                    var updatedLastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
-                    var updatedEmail = InputHelper.ValidateInput("Email", ValidationType.Email);
-                    var updatedPhone = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
-                    var updatedStreet = InputHelper.ValidateInput("Address", ValidationType.Required);
-                    var updatedPostal = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
-                    var updatedCity = InputHelper.ValidateInput("City", ValidationType.Required);
+                    var updatedFirstName = InputHelper.ValidateInput("First name", ValidationType.NotRequired);
+                    var updatedLastName = InputHelper.ValidateInput("Last name", ValidationType.NotRequired);
+                    var updatedEmail = InputHelper.ValidateInput("Email", ValidationType.EmailOptional);
+                    var updatedPhone = InputHelper.ValidateInput("PhoneNumber", ValidationType.NotRequired);
+                    var updatedStreet = InputHelper.ValidateInput("Address", ValidationType.NotRequired);
+                    var updatedPostal = InputHelper.ValidateInput("PostalCode", ValidationType.NotRequired);
+                    var updatedCity = InputHelper.ValidateInput("City", ValidationType.NotRequired);
 
                     var updatedCustomer = new CustomerModel
                     {
