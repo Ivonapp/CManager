@@ -5,6 +5,7 @@ namespace CManager.Presentation.ConsoleApp.Helpers;
 public enum ValidationType
 {
     Required,
+    NotRequired, //updatecustomer
     Email,
 }
 
@@ -20,10 +21,15 @@ public static class InputHelper
 
             if (string.IsNullOrWhiteSpace(input))
             {
+                if (validationType == ValidationType.NotRequired) //UpdateCustomer kan lämnas tomt
+                    return "";      //UpdateCustomer kan lämnas tomt
+
+
                 Console.WriteLine($"{fieldName} is required. Press any key to try again....");
                 Console.ReadKey();
                 continue;
             }
+
 
             var (isValid, errorMessage) = ValidateType(input, validationType);
 
@@ -35,6 +41,12 @@ public static class InputHelper
         }
 
     }
+
+
+
+
+
+
 
     private static (bool isValid, string errorMessage) ValidateType(string input, ValidationType type)
     {
@@ -51,7 +63,7 @@ public static class InputHelper
                 }
                 else
                 {
-                    return (false, "Inavlid email. Use name@example.com ");
+                    return (false, "Invalid email. Use name@example.com ");
                 }
 
             default:
@@ -59,6 +71,10 @@ public static class InputHelper
         }
 
     }
+
+
+
+
 
     private static bool IsValidEmail(string input)
     {
