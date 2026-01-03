@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,9 +19,19 @@ namespace CManager.Presentation.GuiApp.Views
     /// </summary>
     public partial class ActivitiesView : UserControl
     {
+
+
         public ActivitiesView()
         {
             InitializeComponent();
+        }
+
+
+        //NEDAN KOD ÄR FÖR KNAPPEN I ACTIVITIESVIEW
+        private void CreateCustomerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Activities.Items.Add(AddActivity.Text);
+            AddActivity.Clear();
         }
     }
 }

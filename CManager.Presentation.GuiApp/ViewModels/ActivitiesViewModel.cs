@@ -7,6 +7,7 @@ namespace CManager.Presentation.GuiApp.ViewModels;
 public partial class ActivitiesViewModel : ObservableObject
 {
 
+
     private readonly IServiceProvider _serviceProvider;
 
     [ObservableProperty]
@@ -21,7 +22,7 @@ public partial class ActivitiesViewModel : ObservableObject
     }
 
 
-
+    
     public ActivitiesViewModel(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
