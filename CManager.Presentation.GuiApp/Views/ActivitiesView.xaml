@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CManager.Presentation.GuiApp.Views"
              
+             xmlns:models="clr-namespace:CManager.Presentation.GuiApp.Models"
              xmlns:viewmodels="clr-namespace:CManager.Presentation.GuiApp.ViewModels"
              d:DataContext=" {d:DesignInstance Type=viewmodels:ActivitiesViewModel}"
              mc:Ignorable="d" 
-             Background="lightgray"
-             d:DesignHeight="450" d:DesignWidth="400">
+             Background="white"
+             d:DesignHeight="300" d:DesignWidth="300">
 
 
 <Grid>
@@ -28,11 +29,10 @@
        FontFamily="Arial"
        Foreground="black" 
             />
-            <Label Content="[1] Create new customer" Padding="10"/>
 
-            <TextBox x:Name="AddActivity"
-         Margin="0,5,0,5"
-         Padding="5" />
+            <Label Content="[1]first Name" Padding="10"/>
+            <TextBox x:Name="AddActivity" />
+
             <Button x:Name="CreateCustomerBtn"
             Content="Add"
             Click="CreateCustomerBtn_Click" />
@@ -43,7 +43,11 @@
 
 
         <ListView x:Name="Activities" Grid.Row="1" Margin="0 30 0 0">
-
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="models:ActivityItem">
+                    <TextBlock Text="{Binding Activity}" Padding="5" Foreground="black" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
 

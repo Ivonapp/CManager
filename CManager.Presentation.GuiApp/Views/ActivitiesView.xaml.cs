@@ -27,11 +27,11 @@ namespace CManager.Presentation.GuiApp.Views
         }
 
 
-        //NEDAN KOD ÄR FÖR KNAPPEN I ACTIVITIESVIEW
+
         private void CreateCustomerBtn_Click(object sender, RoutedEventArgs e)
         {
-            Activities.Items.Add(AddActivity.Text);
+            Activities.Items.Add(AddActivity.Text); 
             AddActivity.Clear();
         }
     }
-}
+    }
