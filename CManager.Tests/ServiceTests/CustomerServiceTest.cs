@@ -1,4 +1,5 @@
-﻿using CManager.Application.Services;
+﻿using CManager.Application.Helpers;
+using CManager.Application.Services;
 using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
 using Moq;
@@ -7,77 +8,95 @@ namespace CManager.Tests.ServiceTests;
 
 public class CustomerServiceTest
 {
-    [Fact]
-    public void DeleteCustomer_WithEmptyGuid_ReturnsFalse()
+   
+
+
+    //                  DELETECUSTOMER 
+    /*                  KODEN SOM SKA BERÖRAS  
+    public bool DeleteCustomer(Guid id)
     {
-        // Arrange
-        var mockCustomerRepo = new Mock<ICustomerRepo>();
-        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(new List<CustomerModel>());
-
-        var service = new CustomerService(mockCustomerRepo.Object);
-
-        // Act
-        var result = service.DeleteCustomer(Guid.Empty);
-
-        // Assert
-        Assert.False(result);
-        mockCustomerRepo.Verify(r => r.GetAllCustomers(), Times.Never);
+        return _customerRepo.DeleteCustomer(id);
     }
+    */
 
+
+
+
+    //                  DELETECUSTOMER 
+    /*                  KODEN SOM SKRIVS OM */
 
     [Fact]
-    public void DeleteCustomer_WhenCustomerExists_ReturnsTrue()
+
+    public void DeleteCustomer_RetreiveCustomer_ReturnsTrue()
     {
-        // Arrange
-        var testCustomer = new CustomerModel
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "test",
-            LastName = "testsson",
-            Email = "test@domain.com",
-            PhoneNumber = "1234567890",
-            Address = new AddressModel
-            {
-                StreetAddress = "Street",
-                City = "City",
-                PostalCode = "12345",
-            }
-        };
+        //                  ARRANGE - (mockar REPO)
+        var mocknamn = new Mock<ICustomerRepo>();
+        //skriva VAD den ska göra
 
-        var testCustomers = new List<CustomerModel>{testCustomer};
-        
-        var mockCustomerRepo = new Mock<ICustomerRepo>();
-        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(testCustomers);
-        mockCustomerRepo.Setup(r => r.SaveCustomers(It.IsAny<List<CustomerModel>>())).Returns(true);
 
-        var service = new CustomerService(mockCustomerRepo.Object);
+        //                  ACT     - SERVICE
+        var result = Service.RetrieveCustomer(id);
 
-        // Act
-        var result = service.DeleteCustomer(testCustomer.Id);
 
-        // Assert
+        //                  ASSERT
         Assert.True(result);
-        mockCustomerRepo.Verify(r => r.SaveCustomers(It.IsAny<List<CustomerModel>>()), Times.Once);
+        // eller
+        //Assert.False(result); */
     }
 
 
 
-    [Fact]
-    public void DeleteCustomer_WhenRepositoryReturnsNull_ReturnsFalse()
-    {
-        // Arrange
-        var mockCustomerRepo = new Mock<ICustomerRepo>();
-        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns((List<CustomerModel>)null!);
 
-        var service = new CustomerService(mockCustomerRepo.Object);
 
-        // Act
-        var result = service.DeleteCustomer(Guid.NewGuid());
 
-        // Assert
-        Assert.False(result);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//- CreateCustomer
+
+
+
+
+
+//- GetAllCustomers (Måste testa både framgång och när hasError blir true)
+
+
+
+
+
+//- UpdateCustomer
+
+
+
+
+//- GetCustomerById
