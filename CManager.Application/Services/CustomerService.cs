@@ -19,7 +19,7 @@ public class CustomerService : ICustomerService
     //                 Skapar kunden
     //                 Använder GuidHelped för att ge kund unikt ID        (CustomerRepo)
     //                 och CustomerModel lägger till kunden UTAN att spara (CustomerRepo)
-    public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalcode, string city)
+    public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalCode, string city)
     {
         CustomerModel customerModel = new()
         {
@@ -31,7 +31,7 @@ public class CustomerService : ICustomerService
             Address = new AddressModel
             {
                 StreetAddress = streetAddress,
-                PostalCode = postalcode,
+                PostalCode = postalCode,
                 City = city
             }
         };

@@ -7,7 +7,7 @@ using System.Text;
 
             public interface ICustomerService
             {
-            bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalcode, string city);
+            bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalCode, string city);
 
             IEnumerable<CustomerModel> GetAllCustomers(out bool hasError);//Kastar ut en parameter med "out bool hasError"
 
