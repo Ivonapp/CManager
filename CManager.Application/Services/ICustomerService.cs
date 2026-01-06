@@ -38,7 +38,7 @@ using System.Text;
 
 
             //                              HÄMTA SPECIFIK KUND
-            //                              CHATGPT HJÄLPTE MIG NEDAN
+            //                              CHATGPT HJÄLPTE MIG NEDAN ***
 
                             CustomerModel GetCustomerById(Guid id);
 

@@ -42,7 +42,7 @@ namespace CManager.Infrastructure.Repos;
 
 
 
-//              UPDATECUSTOMER
+//              UPDATECUSTOMER ***
 //              CHATGPT HJÄLPTE MIG NEDAN
                     public interface ICustomerUpdate
                                 {
