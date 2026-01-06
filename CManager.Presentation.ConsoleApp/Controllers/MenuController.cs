@@ -183,9 +183,9 @@ public class MenuController(ICustomerService customerService)
                 }
 
                     var index = userChoice - 1;
-                    var selectedCustomer = customers[index];
+                    var selectedCustomer = _customerService.GetCustomerById(customers[index].Id); /* FICK LITE HJÄLP AV CHATGPT PÅ DENNA RADEN*/
 
-                    Console.Clear();
+                Console.Clear();
                     Console.WriteLine("Customer Information:");
                     Console.WriteLine("");
                     Console.WriteLine($"Name: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
@@ -328,6 +328,20 @@ public class MenuController(ICustomerService customerService)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //                                             DELETECUSTOMER CHOICE
 
                 if (!int.TryParse(input, out int userChoice))
@@ -402,6 +416,14 @@ public class MenuController(ICustomerService customerService)
 
         OutputDialog("Press any key to continue...");
     }
+
+
+
+
+
+
+
+
 
     private void OutputDialog(string message)
     {

@@ -1,5 +1,6 @@
 ﻿using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
+using CManager.Application.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,22 +9,21 @@ namespace CManager.Application.Services;
 
 public class CustomerService : ICustomerService
 {
-
     private readonly ICustomerRepo _customerRepo;
-
     public CustomerService(ICustomerRepo customerRepo)
     {
         _customerRepo = customerRepo;
     }
 
+    //                 RENSAT
+    //                 Skapar kunden
+    //                 Använder GuidHelped för att ge kund unikt ID        (CustomerRepo)
+    //                 och CustomerModel lägger till kunden UTAN att spara (CustomerRepo)
     public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalcode, string city)
     {
-
-
-
         CustomerModel customerModel = new()
         {
-            Id = Guid.NewGuid(),
+            Id = GuidHelper.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
             Email = email,
@@ -37,62 +37,56 @@ public class CustomerService : ICustomerService
         };
 
 
+
+        //                RENSAT // *KANSKE ÄNDRA DENNA KODEN SÅ SAVECUSTOMERS OCH GETALLCUSTOMERS ÄR SEPARAT UPPDELAT SÅ SOM I CUSTOMERREPO
+        //                GETALLCUSTOMERS
+        //                SAVECUSTOMERS
+
         try
         {
             var customers = _customerRepo.GetAllCustomers();
             customers.Add(customerModel);
             var result = _customerRepo.SaveCustomers(customers);
             return result;
-
         }
         catch (Exception)
         {
-
             return false;
         }
-
-    }
-
-    public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
-    {
-        hasError = false;
-
-        try
-        {
-            var customers = _customerRepo.GetAllCustomers();
-            return customers;
-        }
-        catch (Exception)
-        {
-
-            //hÄR KOmmer throw hamna från customerrepo - getallcustomers
-            hasError = true;
-            return new List<CustomerModel>();
-        }
     }
 
 
+
+
+        //                RENSAT
+        //                GETALLCUSTOMERS
+        public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
+        {
+            hasError = false;
+
+            try
+            {
+                var customers = _customerRepo.GetAllCustomers();
+                return customers;
+            }
+            catch (Exception)
+            {
+
+                //Här Kommer throw hamna från customerrepo - getallcustomers
+                hasError = true;
+                return new List<CustomerModel>();
+            }
+        }
+
+
+
+    //                    RENSAT
+    //                    DELETECUSTOMER 
+    //                    Resten av koden flyttad till CustomerRepo
 
     public bool DeleteCustomer(Guid id)
     {
-        try
-        {
-            var customers = _customerRepo.GetAllCustomers();
-            var customer = customers.FirstOrDefault(c => c.Id == id);
-
-            if (customer == null)
-                return false;
-
-            customers.Remove(customer);
-            var result = _customerRepo.SaveCustomers(customers);
-            return result;
-
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error deleting customer: {ex.Message}");
-            return false;
-        }
+        return _customerRepo.DeleteCustomer(id);
     }
 
 
@@ -100,22 +94,15 @@ public class CustomerService : ICustomerService
 
 
 
-
-
-    //                              UPDATECUSTOMER
-    //                              NEDAN KOD ÄR PÅGÅENDE KOD. 
+    //                      UPDATECUSTOMER
 
     public bool UpdateCustomer(CustomerModel updatedCustomer)
     {
         try
         {
-
             return _customerRepo.UpdateCustomer(updatedCustomer);
-
         }
-
         catch (Exception ex)
-
         {
             Console.WriteLine($"Not possible to update the customer information. {ex.Message}");
             return false;
@@ -124,9 +111,14 @@ public class CustomerService : ICustomerService
 
 
 
+    //                       HÄMTA SPECIFIK KUND
+    //                       CHATGPT HJÄLPTE MIG NEDAN ***
+
+            public CustomerModel GetCustomerById(Guid id)
+                {
+                    return _customerRepo.GetCustomerById(id);
+                }
+        }
 
 
 
-
-
-}
