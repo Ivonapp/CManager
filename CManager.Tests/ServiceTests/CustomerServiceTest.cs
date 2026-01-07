@@ -75,22 +75,31 @@ public class CustomerServiceTest
     {
 
 
-        //                  ARRANGE
+        //                  ***ARRANGE***
         var mockCustomerRepo = new Mock<ICustomerRepo>();
         var id = Guid.NewGuid();
-                    //customerModel måste in här för testkund (?)
+        
+        var mockCustomer = new CustomerModel
+                            {
+                                Id = id,
+                                FirstName = "TestNamn",
+                                LastName = "TestEfternamn"
+                            };
 
-        //                  setup
+        //                  nät den ser ID returnerar den mockCustomer
+        mockCustomerRepo.Setup(r => r.GetCustomerById(id)).Returns(mockCustomer);
+
         //                  service 
         var service = new CustomerService(mockCustomerRepo.Object);
 
-        //                  ACT
+
+
+        //                  ***ACT***
         //                  var result / använd NAMNET på METODEN i originalkoden
         var result = service.GetCustomerById(id);
 
-
-        //                  ASSERT
-        //                  returnerar CUSTOMER 
+        //                  ***ASSERT***
+        //                  returnerar CUSTOMER eftersom syftet är att returnera en kund
 
 
     }
