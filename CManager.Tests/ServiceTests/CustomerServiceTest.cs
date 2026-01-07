@@ -12,6 +12,7 @@ public class CustomerServiceTest
 
 
     //                  DELETECUSTOMER 
+
     /*                  KODEN SOM SKA BERÖRAS  
     public bool DeleteCustomer(Guid id)
     {
@@ -20,11 +21,13 @@ public class CustomerServiceTest
     */
 
 
+
+
+
     [Fact]
-
-        public void DeleteCustomer_ReturnsTrue()
-        {
-
+    //                      Metod_Scenario_FörväntatResultat
+            public void DeleteCustomer_ShouldReturnTrue_WhenCustomerIsDeleted()
+    {
 
         //                  ARRANGE - (mockar REPO)
             var mockCustomerRepo = new Mock<ICustomerRepo>();
@@ -39,7 +42,7 @@ public class CustomerServiceTest
 
         //                  Object innehåller (en låtsas) metod (DeleteCustomer) från mitt Interface "ICustomerRepo"
         //                  med andra ord: mockCustomerRepo.Object = ett objekt som SER UT som ICustomerRepo och går igenom DeleteCustomer där i
-        var service = new CustomerService(mockCustomerRepo.Object);
+            var service = new CustomerService(mockCustomerRepo.Object);
 
 
         //                  ACT     - SERVICE
@@ -49,11 +52,52 @@ public class CustomerServiceTest
 
 
         //                  ASSERT
-        //                  *skriv vad som händer imr*
+        //                  returnerar bara ja eller nej (eftersom originalkoden är bool)
             Assert.True(result);
             // eller
             //Assert.False(result); */
     }
+
+
+
+
+
+
+    //- GetCustomerById
+    /*public CustomerModel GetCustomerById(Guid id)
+    {
+        return _customerRepo.GetCustomerById(id);
+    }*/
+
+
+    [Fact]
+        public void GetCustomerById_ShouldReturnCustomer_WhenCustomerExists()
+    {
+
+
+        //                  ARRANGE
+        var mockCustomerRepo = new Mock<ICustomerRepo>();
+        var id = Guid.NewGuid();
+                    //customerModel måste in här för testkund (?)
+
+        //                  setup
+        //                  service 
+        var service = new CustomerService(mockCustomerRepo.Object);
+
+        //                  ACT
+        //                  var result / använd NAMNET på METODEN i originalkoden
+        var result = service.GetCustomerById(id);
+
+
+        //                  ASSERT
+        //                  returnerar CUSTOMER 
+
+
+    }
+
+
+
+
 
 
 
@@ -88,4 +132,3 @@ public class CustomerServiceTest
 
 
 
-//- GetCustomerById
