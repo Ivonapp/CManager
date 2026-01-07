@@ -20,51 +20,40 @@ public class CustomerServiceTest
     */
 
 
-
-
-    //                  DELETECUSTOMER 
-    /*                  KODEN SOM SKRIVS OM */
-
     [Fact]
 
-    public void DeleteCustomer_RetreiveCustomer_ReturnsTrue()
-    {
+        public void DeleteCustomer_ReturnsTrue()
+        {
+
+
         //                  ARRANGE - (mockar REPO)
-        var mocknamn = new Mock<ICustomerRepo>();
-        //skriva VAD den ska göra
+            var mockCustomerRepo = new Mock<ICustomerRepo>();
+            var id = Guid.NewGuid(); //Ta in ID
+
+
+        //                  mockCustomerRepo.setup =            (En metod som registrerar ett förväntat beteende på mocken. (säger: "när detta händer...")
+        //                  r => r.DeleteCustomer(id)) =        (r = ICustomerRepo.) Ta ICustomerRepo och kör DeleteCustomer(id) som du hittar inuti ICustomerRepo.cs
+        //                 .Returns(true): Säger:               "...skicka då tillbaka värdet true som svar."
+            mockCustomerRepo.Setup(r => r.DeleteCustomer(id)).Returns(true);
+
+
+        //                  Object innehåller (en låtsas) metod (DeleteCustomer) från mitt Interface "ICustomerRepo"
+        //                  med andra ord: mockCustomerRepo.Object = ett objekt som SER UT som ICustomerRepo och går igenom DeleteCustomer där i
+        var service = new CustomerService(mockCustomerRepo.Object);
 
 
         //                  ACT     - SERVICE
-        var result = Service.RetrieveCustomer(id);
+        //                  *skriv vad som händer imr*
+            var result = service.DeleteCustomer(id);
+
 
 
         //                  ASSERT
-        Assert.True(result);
-        // eller
-        //Assert.False(result); */
+        //                  *skriv vad som händer imr*
+            Assert.True(result);
+            // eller
+            //Assert.False(result); */
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
