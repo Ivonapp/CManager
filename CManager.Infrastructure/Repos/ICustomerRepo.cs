@@ -5,15 +5,65 @@ using System.Text;
 
 namespace CManager.Infrastructure.Repos;
 
-    public interface ICustomerRepo
-    {
-        /*KONTRAKT. Det ska gå att spara en lista av kunder till en fil +
-        det ska gå att hämta ut listan också*/
-
-        List<CustomerModel> GetAllCustomers();
-    bool SaveCustomers(List<CustomerModel> customers);
+        public interface ICustomerRepo : ICustomerReader, ICustomerUpdate, ICustomerDelete
+        {
+            List<CustomerModel> GetAllCustomers();
+            bool SaveCustomers(List<CustomerModel> customers);
+        }
 
 
-                //UpdateCustomer
-    bool UpdateCustomer(CustomerModel updatedCustomer);
-}
+
+
+//ANLEDINGEN till att jag i detta interfacet inte bara skriver: 
+
+// * bool DeleteCustomer(Guid id);
+// * CustomerModel GetCustomerById(Guid id);
+// * bool UpdateCustomer(CustomerModel updatedCustomer);
+
+// Är för att uppfylla kriteriet för Interface Segregation Policy för Repository interfacet.
+// I min interface för Sercive följer jag INTE ISP. 
+// Syftet med namnen (ICustomerDelete, ICustomerReader, ICustomerUpdate) var endast i syftet att förenkla för mig själv.
+
+
+                    //              DELETECUSTOMER
+                    public interface ICustomerDelete
+                                {
+                                    bool DeleteCustomer(Guid id);
+                                }
+
+
+
+
+                    //              HÄMTA SPECIFIK KUND
+                    public interface ICustomerReader
+                                {
+                                    CustomerModel GetCustomerById(Guid id);
+                                }
+
+
+
+
+/*                  UPDATECUSTOMER
+                    CHATGPT HJÄLPTE MIG NEDAN då jag inte riktigt visste än hur jag skulle koppla ihop dom olika koderna i 
+                    interfacet, CustomerService samt CustomerRepo.
+                    Koden nedan är interface "kontraktet" för lambda funktionen i CustomerRepo.
+                    Interface koden nedan säger att CustomerRepor behöver kunna
+                    uppdaterar en kund (updatedCustomer) och returnerar true om uppdateringen lyckas, annars false.
+*/
+                    public interface ICustomerUpdate
+                                {
+                                bool UpdateCustomer(CustomerModel updatedCustomer);
+
+                                }
+
+
+
+
+
+
+
+
+
+
+
+

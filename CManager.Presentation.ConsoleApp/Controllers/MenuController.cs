@@ -33,9 +33,9 @@ public class MenuController(ICustomerService customerService)
                 Console.WriteLine("");
                 Console.Write("Choose option number: ");
 
-                var CustomerInput = Console.ReadLine();
+                var customerInput = Console.ReadLine();
 
-                switch (CustomerInput)
+                switch (customerInput)
                 {
                     case "1":
                         CreateCustomer();
@@ -84,9 +84,9 @@ public class MenuController(ICustomerService customerService)
         var firstName = InputHelper.ValidateInput("First name", ValidationType.Required);
         var lastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
         var email = InputHelper.ValidateInput("Email", ValidationType.Email);
-        var phoneNumber = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
-        var streetAddress = InputHelper.ValidateInput("Address", ValidationType.Required);
-        var postalCode = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
+        var phoneNumber = InputHelper.ValidateInput("Phone number", ValidationType.Required);
+        var streetAddress = InputHelper.ValidateInput("Street address", ValidationType.Required);
+        var postalCode = InputHelper.ValidateInput("Postal code", ValidationType.Required);
         var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
@@ -153,14 +153,14 @@ public class MenuController(ICustomerService customerService)
                 Console.WriteLine("");
                 Console.WriteLine("");
                 Console.WriteLine($"[1]-[{customers.Count}] View customer information  |  [0] Go back to menu");
-                var CustomerInput = Console.ReadLine();
+                var customerInput = Console.ReadLine();
 
 
 
                 //                                             VIEWONECUSTOMER CHOICE
 
 
-                if (!int.TryParse(CustomerInput, out int userChoice))
+                if (!int.TryParse(customerInput, out int userChoice))
                 {
                     OutputDialog("Not a valid number! Press any key to try again...");
                     Console.Clear();
@@ -183,9 +183,9 @@ public class MenuController(ICustomerService customerService)
                 }
 
                     var index = userChoice - 1;
-                    var selectedCustomer = customers[index];
+                    var selectedCustomer = _customerService.GetCustomerById(customers[index].Id); /* FICK LITE HJÄLP AV CHATGPT PÅ DENNA RADEN*/
 
-                    Console.Clear();
+                Console.Clear();
                     Console.WriteLine("Customer Information:");
                     Console.WriteLine("");
                     Console.WriteLine($"Name: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
@@ -197,10 +197,10 @@ public class MenuController(ICustomerService customerService)
                     Console.WriteLine("");
                     Console.WriteLine($"[1] Update customer information  |  [0] Go back to menu");
 
-                    var CustomerChoice = Console.ReadLine();
+                    var customerChoice = Console.ReadLine();
 
 
-                if (!int.TryParse(CustomerChoice, out int userInput))
+                if (!int.TryParse(customerChoice, out int userInput))
                 {
                     OutputDialog("Not a valid number! Press any key to try again...");
                     Console.Clear();
@@ -328,6 +328,20 @@ public class MenuController(ICustomerService customerService)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //                                             DELETECUSTOMER CHOICE
 
                 if (!int.TryParse(input, out int userChoice))
@@ -402,6 +416,14 @@ public class MenuController(ICustomerService customerService)
 
         OutputDialog("Press any key to continue...");
     }
+
+
+
+
+
+
+
+
 
     private void OutputDialog(string message)
     {

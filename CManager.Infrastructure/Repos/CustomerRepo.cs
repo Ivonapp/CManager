@@ -1,4 +1,5 @@
 ﻿using CManager.Domain.Models;
+using CManager.Infrastructure.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,28 +7,31 @@ using System.Text.Json;
 
 namespace CManager.Infrastructure.Repos;
 
+
+//RENSAD KOD NEDAN
 public class CustomerRepo : ICustomerRepo
 {
     private readonly string _filePath;
     private readonly string _directoryPath;
-    private readonly JsonSerializerOptions _jsonOptions;
+    private readonly JsonFormatter _jsonFormatter;
 
-
-
-    //Behöver gå igenom blocket undertill.
+    //Hämtar från klassen JsonFormatter.cs
+    //Sparar ner data och till List.json
     public CustomerRepo(string directoryPath = "Data", string fileName = "list.json")
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);
-        _jsonOptions = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            PropertyNameCaseInsensitive = true, //denna gör så man kan skriva med både små och stora bokstäver som ToUpper/ToLower
-        };
+        _jsonFormatter = new JsonFormatter();
     }
 
 
 
+
+
+
+
+    //                  RENSAD KOD NEDAN
+    //                  GETALLCUSTOMERS
     public List<CustomerModel> GetAllCustomers()
     {
         if (!File.Exists(_filePath))
@@ -38,7 +42,7 @@ public class CustomerRepo : ICustomerRepo
         try
         {
             var json = File.ReadAllText(_filePath);
-            var customers = JsonSerializer.Deserialize<List<CustomerModel>>(json, _jsonOptions);
+            var customers = _jsonFormatter.Deserialize(json);
             return customers ?? []; //Denna delen säger: OM customers är null, returnera en tom lista.
         }
         catch (Exception ex)
@@ -46,10 +50,11 @@ public class CustomerRepo : ICustomerRepo
             Console.WriteLine($"Error loading file with customers: {ex.Message}");
             throw; //Den KASTAR vidare "felet" till GetAllCustomers
         }
-
-
     }
 
+
+    //                  RENSAD KOD NEDAN
+    //                  SAVECUSTOMERS
     public bool SaveCustomers(List<CustomerModel> customers)
     {
         if (customers == null)
@@ -57,10 +62,12 @@ public class CustomerRepo : ICustomerRepo
 
         try
         {
-            var json = JsonSerializer.Serialize(customers, _jsonOptions);
+            var json = _jsonFormatter.SerializeCustomers(customers);
 
             if (!Directory.Exists(_directoryPath))
+                { 
                 Directory.CreateDirectory(_directoryPath);
+                }
 
             File.WriteAllText(_filePath, json);
             return true;
@@ -78,24 +85,15 @@ public class CustomerRepo : ICustomerRepo
 
 
 
+    //                 RENSAD
+    //                 UPDATECUSTOMER
+    //                 Utgår från indexeringen som Emil skapade i CustomerService.cs
 
 
-
-
-
-
-
-
-
-
-    //                              UPDATECUSTOMER
-    //                              NEDAN KOD ÄR PÅGÅENDE KOD, utgår från indexeringen som Emil skapade i CustomerService.cs > DeleteCustomer
-
-
-    public bool UpdateCustomer(CustomerModel updatedCustomer)
-    {
-        try
+        public bool UpdateCustomer(CustomerModel updatedCustomer)
         {
+            try
+            {
             
             var customers = GetAllCustomers(); //Hämtar ALLA kUnderna 
             
@@ -114,7 +112,7 @@ public class CustomerRepo : ICustomerRepo
                 customer.Address.City = updatedCustomer.Address.City;
 
             
-            return SaveCustomers(customers); // HÄR uppdateras det  till Json
+            return SaveCustomers(customers); // HÄR uppdateras det till Json
         }
 
             catch (Exception ex) //OM det blir fel så hamnar det här och kastar exception
@@ -123,5 +121,66 @@ public class CustomerRepo : ICustomerRepo
             return false;
         }
     }
+
+
+
+
+
+
+
+
+
+    /*              HÄMTA SPECIFIK KUND
+                    CHATGPT HJÄLPTE MIG NEDAN med koden: " c => c.Id == id)!;"
+                    vid tidpunkten då jag fick hjälp av chatGPT hade jag alltså inte riktigt förstått vad koden gör eller hur den funkar.
+                    Nu vet jag att koden jämför en specifik kund med ett specifikt ID och jämför om det är samma kund. (Det kallas för lambda funktion.)
+                        
+                    För ytterligare förklaring: 
+                    c = CustomerModel { Id = 123409, FirstName = "Ivar", LastName = "Svensson" }
+
+                    Så om man nu ska "testa" funktionen, så kan man säga tex: 
+                    customer => c.123409 == 123409 = TRUE
+                    customer => c.123409 == 867463 = FALSE
+                    Koden returnerar alltså true eller false beroende på om ID i detta fallet matchar.
+     */
+
+        public CustomerModel GetCustomerById(Guid id)
+                {
+                    var customers = GetAllCustomers();
+                    return customers.FirstOrDefault(c => c.Id == id)!; //Hittar kund med rätt ID.
+                }
+
+
+
+
+   
+
+
+
+
+    //                 DELETECUSTOMER 
+    public bool DeleteCustomer(Guid id)
+    {
+        try
+        {
+            var customers = GetAllCustomers();
+            var customer = customers.FirstOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return false;
+
+            customers.Remove(customer);
+
+            var result = SaveCustomers(customers);
+            return result;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting customer: {ex.Message}");
+            return false;
+        }
+    }
+
 
 }
