@@ -8,26 +8,28 @@ using System.Net;
 
 namespace CManager.Tests.ServiceTests;
 
+
+/*                    VISSA DELAR AV MIN KOD I DETTA AVSNITTET ÄR MED CHATGPT. (Dessa har jag kommenterat ut i koden med "CHATGPT" specifikt.)
+                      Andra delar i koden som endast förklarar vad viss kod gör är INTE Chatgpt, utan förklaringar som jag gradvis har skrivit och skrivit om, ju mer jag förstått koden
+                      medans jag byggt den lager för lager, där jag också har den som en repetition samt som en sorts "mall" för senare. Av hela kursen så var detta
+                      det absolut svåraste och mest tidskrävande att greppa och förstå, där det också var svårt att finna info. Av den anledningen
+                      skrev jag också mer förklaringar för att kunna använda det som mall etc. 
+
+                      Chatgpt har använts som ett bollplank/en lärare som hjälpt mig få en bättre överblick och förståelse över något jag inte förstått,
+                      där jag t ex inte lyckats få till en specifik del av en specifik kod och inte förstått hur eller varför.
+                      När det åandra sidan är kod jag inte förstår eller behärskar, så kommer jag INTE att använda mig av den koden.
+*/
+
 public class CustomerServiceTest
 {
 
 
-
-    //                                  DELETECUSTOMER 
-
-    /*                  KODEN SOM SKA BERÖRAS  
-    public bool DeleteCustomer(Guid id)
-    {
-        return _customerRepo.DeleteCustomer(id);
-    }
-
-    */
-
+    //DELETECUSTOMER 
     [Fact]
     public void DeleteCustomer_ShouldReturnTrue_WhenCustomerIsDeleted()
     {
 
-        //                  ARRANGE - (mockar REPO)
+        //ARRANGE
         var mockCustomerRepo = new Mock<ICustomerRepo>();
         var id = Guid.NewGuid(); //Ta in ID
 
@@ -43,44 +45,24 @@ public class CustomerServiceTest
         var service = new CustomerService(mockCustomerRepo.Object);
 
 
-        //                  ACT     - SERVICE
-        //                  *skriv vad som händer imr*
+        //ACT
         var result = service.DeleteCustomer(id);
 
 
 
-        //                  ASSERT
-        //                  returnerar bara ja eller nej (eftersom originalkoden är bool)
-        Assert.True(result); //true
-        // eller
-        //Assert.False(result); */
+        //ASSERT
+        Assert.True(result); 
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-    //-                             GetCustomerById
-    /*public CustomerModel GetCustomerById(Guid id)
-    {
-        return _customerRepo.GetCustomerById(id);
-    }*/
-
-
+    //GETCUSTOMERBYID
     [Fact]
     public void GetCustomerById_ShouldReturnCustomer_WhenCustomerExists()
     {
 
 
-        //                  ARRANGE, setup returns()
+        //ARRANGE
         var mockCustomerRepo = new Mock<ICustomerRepo>();
         var id = Guid.NewGuid();
 
@@ -99,17 +81,15 @@ public class CustomerServiceTest
             }
         };
 
-        mockCustomerRepo.Setup(r => r.GetCustomerById(id)).Returns(testCustomer); // vad den returnerar
+        mockCustomerRepo.Setup(r => r.GetCustomerById(id)).Returns(testCustomer);
 
-        var service = new CustomerService(mockCustomerRepo.Object); // service 
+        var service = new CustomerService(mockCustomerRepo.Object);
 
-        //                  ACT
-        //                  var result / använd NAMNET på METODEN i originalkoden
+        //ACT
         var result = service.GetCustomerById(id);
 
-        //                  ***ASSERT***
-        //                  returnerar CUSTOMER eftersom syftet är att returnera en kund
-        Assert.NotNull(result);
+        //ASSERT
+        Assert.NotNull(result);                     // Undersöker att det returneras kund och inte null. Om null (tomt) så misslyckas testet. 
         Assert.Equal(id, result.Id);                //equal = "vågskå¨l" - jämför fejk ID med riktigt ID och ser OM dom matchar
         Assert.Equal("Test", result.FirstName);     //equal = "vågskål", jämför Testets namn med riktiga namnet och ser OM dom matchar
     }
@@ -119,58 +99,61 @@ public class CustomerServiceTest
 
 
 
+    //CREATECUSTOMER (Testet bekräftar att en ny kund skapas och sparas korrekt.)
 
-
-
-
-
-
-
-
-
-
-
-    //                                          - CreateCustomer
-
-    //KODEN
-    /*public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalCode, string city)
-    {
-        try
-        {
-            var customers = _customerRepo.GetAllCustomers();
-            customers.Add(customerModel);
-            var result = _customerRepo.SaveCustomers(customers);
-            return result;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }*/
-
-
+    //MED HJÄLP AV CHAT GPT
+    // Jag har fått lite hjälp med strukturen av chatGPT för raden där jag skrivit in "var firstname ="test"" och det andra i det blocket, samt raden UNDER 
+    // var result = service.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
+    // Jag höll på med denna delen rätt länge där jag försökte "minimera" koden och eventuellt se om jag kunde
+    // skapa en lista med alla objekt där jag då kunde skippa alla extra rader, men det blev lite för "överkurs" för mig.
 
     [Fact]
     public void CreateCustomer_ShouldReturnTrue_WhenCustomerIsSavedSuccessfully()
     {
 
-        //ARRANGE (MOCK, Repository Interfacet)
+        //ARRANGE
         var mockCustomerRepo = new Mock<ICustomerRepo>();
-        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(new List<CustomerModel>()); //FRÅN EMILS KOD
-        mockCustomerRepo.Setup(r => r.SaveCustomers(It.IsAny<List<CustomerModel>>())).Returns(true); //FRÅN EMILS KOD
+        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(new List<CustomerModel>());            //FRÅN EMILS KOD //Skickar tillbaka en tom lista när vi kallar på "GetAllCustomers" 
+        mockCustomerRepo.Setup(r => r.SaveCustomers(It.IsAny<List<CustomerModel>>())).Returns(true);    //FRÅN EMILS KOD //Returnerar true när vi sparar kundlistan 
 
-        var firstName = "Test";
-        var lastName = "Testsson";
-        var email = "Test@domain.com";
-        var phoneNumber = "1234567890";
-        var streetAddress = "Street";
-        var postalCode = "City";
-        var city = "12345";
+        var firstName = "Test";                                                 // informationen här fick jag hjälp av med ChatGpt då jag
+        var lastName = "Testsson";                                              // inte riktigt förstod hur jag skulle skriva då jag försökte
+        var email = "Test@domain.com";                                          // skriva koden som jag gjorde i GETCUSTOMERBYID vilket ju inte går.
+        var phoneNumber = "1234567890";                                         // Dessa kund rader kommer sen att matas in i vår "result" del.
+        var streetAddress = "Street";                                           
+        var postalCode = "City";                                                
+        var city = "12345";                                                     
 
         var service = new CustomerService(mockCustomerRepo.Object);
 
-        //ACT (SERVICE, CustomerService)
+        //ACT
         var result = service.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
+        // DENNA OCKSÅ MED HJÄLP AV CHATGPT // Skickar in kundinformationen och sparar kund, result = true om det lyckas, false annars.
+
+        //ASSERT
+        Assert.True(result); //EJ chatgpt. Undersöker att CreateCustomer returnerade true, dvs att kunden sparades korrekt. Om false så blir testet misslyckat.
+    }
+
+
+
+
+
+    //UPDATECUSTOMER (Returnerar true när repositoryt lyckas spara ändringarna för en kund.)
+
+    [Fact]
+    public void UpdateCustomer_ShouldReturnTrue_WhenUpdateIsSuccessful()
+    {
+        //ARRANGE
+        var mockCustomerRepo = new Mock<ICustomerRepo>();
+
+        var customer = new CustomerModel();
+
+        mockCustomerRepo.Setup(r => r.UpdateCustomer(customer)).Returns(true);
+
+        var service = new CustomerService(mockCustomerRepo.Object); 
+
+        //ACT
+        var result = service.UpdateCustomer(customer);
 
         //ASSERT
         Assert.True(result);
@@ -180,137 +163,32 @@ public class CustomerServiceTest
 
 
 
+    //GETALLCUSTOMERS    (Kontrollerar att customerService kan hämta kunder via repo.)
 
 
-
-
-
-
-
-
-
-    //                                  - UpdateCustomer
-
-    //KODEN
-
-    /*    public bool UpdateCustomer(CustomerModel updatedCustomer)
-    {
-        try
-        {
-            return _customerRepo.UpdateCustomer(updatedCustomer);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Not possible to update the customer information. {ex.Message}");
-            return false;
-        }
-    }*/
-
-
-
-
-    [Fact]
-    public void UpdateCustomer_ShouldReturnTrue_WhenUpdateIsSuccessful()
-    {
-
-        //ARRANGE (MOCK, Repository Interfacet)
-        var mockCustomerRepo = new Mock<ICustomerRepo>();
-
-        var customer = new CustomerModel();
-
-        mockCustomerRepo.Setup(r => r.UpdateCustomer(customer)).Returns(true);
-
-        var service = new CustomerService(mockCustomerRepo.Object); 
-
-        //ACT (SERVICE, CustomerService)
-        var result = service.UpdateCustomer(customer);
-
-        //ASSERT (Undersöker om resultatet blev rätt)
-        Assert.True(result);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //                                  - GetAllCustomers
-
-    //KODEN
-
-    /*public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
-        {
-            hasError = false;
-
-            try
-            {
-                var customers = _customerRepo.GetAllCustomers();
-                return customers;
-            }
-            catch (Exception)
-            {
-
-                //Här Kommer throw hamna från customerrepo - getallcustomers
-                hasError = true;
-                return new List<CustomerModel>();
-            }
-        }*/
-
-
-
-
-    //Kontrollerar att customerService kan hämta kunder via repo
     [Fact]
     public void GetAllCustomers_ShouldReturnCustomers_WhenSuccessful()
     {
         // ARRANGE
-        var mockCustomerRepo = new Mock<ICustomerRepo>(); 
-
-        var testCustomers = new List<CustomerModel> {new CustomerModel()}; 
-
-        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(testCustomers);
-        var service = new CustomerService(mockCustomerRepo.Object); 
+        var mockCustomerRepo = new Mock<ICustomerRepo>();       // Skapar ett fake (mock) repository som ersätter den RIKTIGA
+        mockCustomerRepo.Setup(r => r.GetAllCustomers()).Returns(new List<CustomerModel>()); //FRÅN EMILS KOD //när vi kallar på "GetAllCustomers", returneras en tom lista  
+        var service = new CustomerService(mockCustomerRepo.Object); // Skapar CustomerService och skickar in låtsas repot "mockCustomerRepo istället för ett riktigt repositoryt
 
 
-        // ACT
-        var result = service.GetAllCustomers(out bool hasError); 
+
+        // ACT                                                   // MED HJÄLP AV CHATGPT
+        var result = service.GetAllCustomers(out bool hasError); // Jag fick hjälp från ChatGPT med denna raden eftersom jag hela tiden fick fel i testet, och jag hade aldrig sett "out bool hasError."
+                                                                 // Raden gör 2 saker. Den returnerar en lista (var result) och den kan returnera ett FALSE eller TRUE värde (out bool hasError.)
+                                                                 // Om out bool hasError returnerar false så inebär det = att allt gick bra och det var INGA fel när kunderna hämtades
+                                                                 // Om det åandra sidan returnerar TRUE så innebär det att något gick FEL när det skulle returneras en lista.
 
 
-        // ASSERT
-        Assert.False(hasError); 
-        // FALSE kontrolerrar att värdet som skickas in är falskt.
-        // 
+        // ASSERT                                               // MED HJÄLP AV CHATGPT
+        Assert.False(hasError);                                 // Jag fick hjälp med även denna delen av chatGPT eftersom jag hade problem med att få testet att funka och inte visste
+                                                                // hur jag skulle göra. 
+                                                                // Denna delen KONTROLLERAR RESULTATET från ACT.
+                                                                // Denna delen styr att testet bara ska bara passera om hasError är false (alltså från ACT out bool hasError.)
+                                                                // OM det i ACT delen skulle skickas ut true, så kommer alltså testet bli RÖTT.
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//"HANS video - Skapa enhetstester för att testa och kvalitetssäkra din kod"
-// Assert.equal
-// Assert.Null(member.PhoneNumber);
-// Assert.NotNull(member);

@@ -12,6 +12,8 @@ namespace CManager.Infrastructure.Repos;
         }
 
 
+
+
 //ANLEDINGEN till att jag i detta interfacet inte bara skriver: 
 
 // * bool DeleteCustomer(Guid id);
@@ -24,7 +26,6 @@ namespace CManager.Infrastructure.Repos;
 
 
                     //              DELETECUSTOMER
-                    //              RENSAT
                     public interface ICustomerDelete
                                 {
                                     bool DeleteCustomer(Guid id);
@@ -42,8 +43,13 @@ namespace CManager.Infrastructure.Repos;
 
 
 
-//              UPDATECUSTOMER ***
-//              CHATGPT HJÄLPTE MIG NEDAN
+/*                  UPDATECUSTOMER
+                    CHATGPT HJÄLPTE MIG NEDAN då jag inte riktigt visste än hur jag skulle koppla ihop dom olika koderna i 
+                    interfacet, CustomerService samt CustomerRepo.
+                    Koden nedan är interface "kontraktet" för lambda funktionen i CustomerRepo.
+                    Interface koden nedan säger att CustomerRepor behöver kunna
+                    uppdaterar en kund (updatedCustomer) och returnerar true om uppdateringen lyckas, annars false.
+*/
                     public interface ICustomerUpdate
                                 {
                                 bool UpdateCustomer(CustomerModel updatedCustomer);

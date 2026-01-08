@@ -111,10 +111,18 @@ public class CustomerService : ICustomerService
 
 
 
-    //                       GETCUSTOMERBYID
-    //                       CHATGPT HJÄLPTE MIG NEDAN ***
 
-            public CustomerModel GetCustomerById(Guid id)
+
+
+
+
+
+    /*        GETCUSTOMERBYID
+              CHATGPT HJÄLPTE MIG NEDAN med koden som går hand i hand med lambda funktionen i CustomerRepo.
+              Service koden nedan gör inget själv, utan "frågar" CustomerRepo efter kunden med det angivna id:t och returnerar den kunden.
+    */
+
+    public CustomerModel GetCustomerById(Guid id)
                 {
                     return _customerRepo.GetCustomerById(id);
                 }

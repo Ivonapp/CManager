@@ -129,15 +129,28 @@ public class CustomerRepo : ICustomerRepo
 
 
 
-    
-    //                  HÄMTA SPECIFIK KUND
-    //                  CHATGPT HJÄLPTE MIG NEDAN ***
 
-         public CustomerModel GetCustomerById(Guid id)
+    /*              HÄMTA SPECIFIK KUND
+                    CHATGPT HJÄLPTE MIG NEDAN med koden: " c => c.Id == id)!;"
+                    vid tidpunkten då jag fick hjälp av chatGPT hade jag alltså inte riktigt förstått vad koden gör eller hur den funkar.
+                    Nu vet jag att koden jämför en specifik kund med ett specifikt ID och jämför om det är samma kund. (Det kallas för lambda funktion.)
+                        
+                    För ytterligare förklaring: 
+                    c = CustomerModel { Id = 123409, FirstName = "Ivar", LastName = "Svensson" }
+
+                    Så om man nu ska "testa" funktionen, så kan man säga tex: 
+                    customer => c.123409 == 123409 = TRUE
+                    customer => c.123409 == 867463 = FALSE
+                    Koden returnerar alltså true eller false beroende på om ID i detta fallet matchar.
+     */
+
+        public CustomerModel GetCustomerById(Guid id)
                 {
                     var customers = GetAllCustomers();
-                    return customers.FirstOrDefault(c => c.Id == id)!;
+                    return customers.FirstOrDefault(c => c.Id == id)!; //Hittar kund med rätt ID.
                 }
+
+
 
 
    
