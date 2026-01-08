@@ -111,7 +111,7 @@ public class CustomerService : ICustomerService
 
 
 
-    //                       HÄMTA SPECIFIK KUND
+    //                       GETCUSTOMERBYID
     //                       CHATGPT HJÄLPTE MIG NEDAN ***
 
             public CustomerModel GetCustomerById(Guid id)
