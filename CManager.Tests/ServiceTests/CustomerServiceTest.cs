@@ -68,7 +68,7 @@ public class CustomerServiceTest
 
         var testCustomer = new CustomerModel
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             FirstName = "Test",
             LastName = "Testsson",
             Email = "Test@domain.com",
