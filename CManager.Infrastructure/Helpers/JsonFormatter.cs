@@ -24,8 +24,6 @@ namespace CManager.Infrastructure.Helpers
 
 
 
-
-        //RENSAD KOD NEDAN
         //GETALLCUSTOMERS
         //Omvandlar en Json-sträng till lista med kunder.
         //ELLER en tom lista om det misslyckas.
@@ -44,7 +42,6 @@ namespace CManager.Infrastructure.Helpers
 
 
 
-        //RENSAD KOD NEDAN
         //SAVECUSTOMERS
         //Omvandlar en lista med kunder till Json-sträng.
         //Vid misslyckande skickas exception ut.
@@ -58,9 +55,7 @@ namespace CManager.Infrastructure.Helpers
             {
                 Console.WriteLine($"Something went wrong. {ex.Message}");
                 throw;
-                //eller så kan du testa att ha
-                //return customers ?? [];
-                //istället för throw som Emil visade.
+
             }
         }
     }

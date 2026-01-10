@@ -15,7 +15,6 @@ public class CustomerService : ICustomerService
         _customerRepo = customerRepo;
     }
 
-    //                 RENSAT
     //                 Skapar kunden
     //                 Använder GuidHelped för att ge kund unikt ID        (CustomerRepo)
     //                 och CustomerModel lägger till kunden UTAN att spara (CustomerRepo)
@@ -38,7 +37,6 @@ public class CustomerService : ICustomerService
 
 
 
-        //                RENSAT // *KANSKE ÄNDRA DENNA KODEN SÅ SAVECUSTOMERS OCH GETALLCUSTOMERS ÄR SEPARAT UPPDELAT SÅ SOM I CUSTOMERREPO
         //                GETALLCUSTOMERS
         //                SAVECUSTOMERS
 
@@ -80,7 +78,6 @@ public class CustomerService : ICustomerService
 
 
 
-    //                    RENSAT
     //                    DELETECUSTOMER 
     //                    Resten av koden flyttad till CustomerRepo
 
@@ -108,12 +105,6 @@ public class CustomerService : ICustomerService
             return false;
         }
     }
-
-
-
-
-
-
 
 
 
