@@ -8,7 +8,6 @@ using System.Text.Json;
 namespace CManager.Infrastructure.Repos;
 
 
-//RENSAD KOD NEDAN
 public class CustomerRepo : ICustomerRepo
 {
     private readonly string _filePath;
@@ -27,10 +26,6 @@ public class CustomerRepo : ICustomerRepo
 
 
 
-
-
-
-    //                  RENSAD KOD NEDAN
     //                  GETALLCUSTOMERS
     public List<CustomerModel> GetAllCustomers()
     {
@@ -53,7 +48,6 @@ public class CustomerRepo : ICustomerRepo
     }
 
 
-    //                  RENSAD KOD NEDAN
     //                  SAVECUSTOMERS
     public bool SaveCustomers(List<CustomerModel> customers)
     {
@@ -83,9 +77,6 @@ public class CustomerRepo : ICustomerRepo
 
 
 
-
-
-    //                 RENSAD
     //                 UPDATECUSTOMER
     //                 Utgår från indexeringen som Emil skapade i CustomerService.cs
 
@@ -121,12 +112,6 @@ public class CustomerRepo : ICustomerRepo
             return false;
         }
     }
-
-
-
-
-
-
 
 
 

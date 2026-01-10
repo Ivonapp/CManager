@@ -13,17 +13,8 @@ using System.Text;
 
 
 
-    //Jag skriver bara ut: 
-    // bool DeleteCustomer(Guid id); 
-    // bool UpdateCustomer(CustomerModel updatedCustomer);
-    // CustomerModel GetCustomerById(Guid id);
-    // Eftersom att jag här inte följer Interface segregation principle så som jag följer i Repository
-
-
-
 
             //                              DELETECUSTOMER
-            //                              RENSAT
 
                             bool DeleteCustomer(Guid id);
 
@@ -37,8 +28,13 @@ using System.Text;
 
 
 
-            //                              HÄMTA SPECIFIK KUND
-            //                              CHATGPT HJÄLPTE MIG NEDAN ***
+    //                              HÄMTA SPECIFIK KUND
+    //                              CHATGPT HJÄLPTE MIG NEDAN.
+    //                              Metoden nedan ska hämta en kund baserat på ett ID
+    //                              och den är kopplad till lambda funktionen.
+    //                              (Detta förstår jag nu, men det var i början när man
+    //                              inte riktigt förstod hur det funkade med alla olika filer,
+    //                              hur allt kopplas ihop etc.)
 
                             CustomerModel GetCustomerById(Guid id);
 
